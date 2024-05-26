@@ -51,7 +51,7 @@ admin_password = None
 
 if os.path.exists('adminpageconf.json'):
     try:
-        adminpageconf = json.loads(file('adminpageconf.json').read().strip())
+        adminpageconf = json.loads(open('adminpageconf.json').read().strip())
         admin_username = str(adminpageconf['username'])
         admin_password = str(adminpageconf['password'])
     except Exception as e:

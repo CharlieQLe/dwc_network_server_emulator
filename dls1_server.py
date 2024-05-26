@@ -20,9 +20,10 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
+import http.server
 import logging
-import BaseHTTPServer
-import SocketServer
+import http
+import socketserver
 import os
 import traceback
 
@@ -104,7 +105,7 @@ def handle_download(handler, addr, post):
     return ret
 
 
-class Dls1HTTPServerHandler(BaseHTTPServer.BaseHTTPRequestHandler):
+class Dls1HTTPServerHandler(http.server.BaseHTTPRequestHandler):
     """Nintendo Dls1 server handler."""
 
     post_paths = {
@@ -142,7 +143,7 @@ class Dls1HTTPServerHandler(BaseHTTPServer.BaseHTTPRequestHandler):
             logger.log(logging.ERROR, "%s", traceback.format_exc())
 
 
-class Dls1HTTPServer(SocketServer.ThreadingMixIn, BaseHTTPServer.HTTPServer):
+class Dls1HTTPServer(socketserver.ThreadingMixIn, http.server.HTTPServer):
     """Threading HTTP server."""
     pass
 

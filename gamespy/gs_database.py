@@ -60,11 +60,11 @@ class Transaction(object):
                                  statement.replace('?', '%s') % parameters)
 
         timeStart = time.time()
-        clockStart = time.clock()
+        clockStart = time.process_time()
 
         cursor.execute(statement, parameters)
 
-        clockEnd = time.clock()
+        clockEnd = time.process_time()
         timeEnd = time.time()
         timeDiff = timeEnd - timeStart
 

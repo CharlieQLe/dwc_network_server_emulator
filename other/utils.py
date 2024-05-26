@@ -24,10 +24,11 @@ import logging.handlers
 import random
 import string
 import struct
-import urlparse
+import urllib
 import ctypes
 import os
-
+import urllib.parse
+import functools
 
 def generate_random_str_from_set(ln, chs):
     """Generate a random string of size <ln> based on charset <chs>."""
@@ -112,7 +113,7 @@ def base32_decode(s, reverse=False):
     if reverse:
         s = s[::-1]
 
-    return reduce(lambda orig, b: ((orig << 5) | alpha.index(b)), s, 0)
+    return functools.reduce(lambda orig, b: ((orig << 5) | alpha.index(b)), s, 0)
 
 
 # Number routines
@@ -121,7 +122,7 @@ def get_num_from_bytes(data, idx, fmt, bigEndian=False):
 
     Endianness by default is little.
     """
-    return struct.unpack_from("<>"[bigEndian] + fmt, buffer(bytearray(data)), idx)[0]
+    return struct.unpack_from("<>"[bigEndian] + fmt, bytearray(data), idx)[0]
 
 # Instead of passing slices, pass the buffer and index so we can calculate
 # the length automatically.
@@ -291,9 +292,9 @@ def print_hex(data, cols=16, sep=' ', pretty=True):
     Can be pretty printed but takes more time.
     """
     if pretty:
-        print pretty_print_hex(data, cols, sep)
+        print(pretty_print_hex(data, cols, sep))
     else:
-        print sep.join("%02x" % b for b in bytearray(data))
+        print(sep.join("%02x" % b for b in bytearray(data)))
 
 
 def pretty_print_hex(orig_data, cols=16, sep=' '):
@@ -360,7 +361,7 @@ def pretty_print_hex(orig_data, cols=16, sep=' '):
 
 def qs_to_dict(s):
     """Convert query string to dict."""
-    ret = urlparse.parse_qs(s, True)
+    ret = urllib.parse.parse_qs(s, True)
 
     for k, v in ret.items():
         try:
@@ -368,7 +369,7 @@ def qs_to_dict(s):
             # least let it be decoded.
             # For the most part it's not important since it's mostly
             # used for the devname/ingamesn fields.
-            ret[k] = base64.b64decode(urlparse.unquote(v[0])
+            ret[k] = base64.b64decode(urllib.parse.unquote(v[0])
                                               .replace("*", "=")
                                               .replace("?", "/")
                                               .replace(">", "+")

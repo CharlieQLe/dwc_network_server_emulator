@@ -116,7 +116,7 @@ class InternalStatsServer(object):
 
     def start(self):
         manager_address = dwc_config.get_ip_port('GameSpyManager')
-        manager_password = ""
+        manager_password = None
         self.server_manager = GameSpyServerDatabase(address=manager_address,
                                                     authkey=manager_password)
         self.server_manager.connect()

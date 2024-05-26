@@ -430,10 +430,7 @@ class PlayerSession(LineReceiver):
         self.transport.write(bytes(msg))
 
     def perform_updatepro(self, data_parsed):
-        """Wii example:
-        \updatepro\\sesskey\199714190\firstname\Wii:2555151656076614@WR9E
-        \partnerid\11\final\
-
+        """
         Remove any fields not related to what we should be updating.
         To avoid any crashes, make sure the key is actually in the dictionary
         before removing it.

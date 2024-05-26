@@ -26,7 +26,6 @@ import time
 
 import other.utils as utils
 
-
 def generate_secret_keys(filename="gslist.cfg"):
     """Generate list of secret keys based on a config file.
 
@@ -34,7 +33,8 @@ def generate_secret_keys(filename="gslist.cfg"):
     TODO: Parse the config file in a cleaner way. (ex: using CSV module)
     """
     secret_key_list = {}
-    with open(filename) as key_file:
+
+    with open(filename, encoding='ISO-8859-1') as key_file:
         for line in key_file.readlines():
             # name = line[:54].strip()
             # Probably won't do anything with the name for now.
@@ -117,7 +117,7 @@ def prepare_rc4_base64(_key, _data):
 
     data.append(0)
 
-    return base64.b64encode(buffer(data))
+    return base64.b64encode(data)
 
 
 def parse_authtoken(authtoken, db):

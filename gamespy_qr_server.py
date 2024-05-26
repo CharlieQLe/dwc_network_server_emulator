@@ -94,7 +94,7 @@ class GameSpyQRServer(object):
     def start(self):
         try:
             manager_address = dwc_config.get_ip_port('GameSpyManager')
-            manager_password = ""
+            manager_password = None
 
             self.server_manager = GameSpyServerDatabase(
                 address=manager_address,
