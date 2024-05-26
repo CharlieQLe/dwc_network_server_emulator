@@ -444,9 +444,9 @@ class AdminPage(resource.Resource):
     def render_GET(self, request):
         if not adminpageconf:
             self.render_not_available(request)
-            return ""
+            return b""
         if not self.is_authorized(request):
-            return ""
+            return b""
 
         title = None
         response = ''
@@ -459,21 +459,21 @@ class AdminPage(resource.Resource):
         elif request.path == "/consoles":
             title = "AltWfc Console List"
             response = self.render_consolelist(request)
-        return self.get_header(title) + response + self.get_footer()
+        return (self.get_header(title) + response + self.get_footer()).encode()
 
     def render_POST(self, request):
         if not adminpageconf:
             self.render_not_available(request)
-            return ""
+            return b""
         if not self.is_authorized(request):
-            return ""
+            return b""
 
         if request.path == "/updatebanlist":
-            return self.update_banlist(request)
+            return self.update_banlist(request).encode()
         if request.path == "/updateconsolelist":
-            return self.update_consolelist(request)
+            return self.update_consolelist(request).encode()
         else:
-            return self.get_header() + self.get_footer()
+            return (self.get_header() + self.get_footer()).encode()
 
 
 class AdminPageServer(object):

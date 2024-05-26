@@ -98,7 +98,7 @@ class StatsPage(resource.Resource):
                                   if server_list[game])
             output += self.footer % (self.stats.get_last_update_time())
 
-        return output
+        return output.encode()
 
 
 class InternalStatsServer(object):
