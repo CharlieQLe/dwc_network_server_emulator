@@ -100,6 +100,8 @@ class AdminPage(resource.Resource):
         return s
 
     def is_authorized(self, request):
+        return True
+        """ TEMPORARY: ASSUME ADMIN
         is_auth = False
         response_code = 401
         error_message = "Authorization required!"
@@ -121,6 +123,7 @@ class AdminPage(resource.Resource):
             request.setHeader('WWW-Authenticate', 'Basic realm="ALTWFC"')
             request.write(error_message)
         return is_auth
+        """
 
     def update_banlist(self, request):
         address = request.getClientIP()
