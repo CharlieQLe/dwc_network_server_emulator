@@ -105,9 +105,8 @@ class AdminPage(resource.Resource):
         error_message = "Authorization required!"
         address = request.getClientIP()
         try:
-            expected_auth = base64.encodestring(
-                admin_username + ":" + admin_password
-            ).strip()
+            str_auth = f"{admin_username}:{admin_password}"
+            expected_auth = base64.encodebytes(str_auth.encode()).strip()
             actual_auth = request.getAllHeaders()['authorization'] \
                 .replace("Basic ", "") \
                 .strip()
