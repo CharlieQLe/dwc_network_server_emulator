@@ -115,13 +115,10 @@ class RegPage(resource.Resource):
         return responsedata
 
     def render_GET(self, request):
-        title = None
-        response = ''
-        if request.path == "/register":
-            title = 'Register a Console'
-            response = self.render_maclist(request)
+        title = 'Register a Console'
+        response = self.render_maclist(request)
 
-        return self.get_header(title) + response + self.get_footer()
+        return (self.get_header(title) + response + self.get_footer()).encode()
 
     def render_POST(self, request):
         if request.path == "/updatemaclist":
