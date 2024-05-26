@@ -86,7 +86,7 @@ class PlayerSearch(LineReceiver):
             commands, self.leftover = gs_query.parse_gamespy_message(data)
 
             for data_parsed in commands:
-                print data_parsed
+                print(data_parsed)
 
                 if data_parsed['__cmd__'] == "otherslist":
                     self.perform_otherslist(data_parsed)

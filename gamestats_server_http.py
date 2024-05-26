@@ -21,9 +21,11 @@
  TODO: Move gamestats list to database?
 """
 
+import http.server
 import logging
-import urlparse
-import BaseHTTPServer
+import urllib
+import urllib.parse
+import http
 import traceback
 import os
 import hashlib
@@ -112,7 +114,7 @@ class GameStatsServer(object):
         httpd.serve_forever()
 
 
-class GameStatsHTTPServer(BaseHTTPServer.HTTPServer):
+class GameStatsHTTPServer(http.server.HTTPServer):
     gamestats_list = [
         GameStatsBase,
         GameStatsVersion1,
@@ -124,7 +126,7 @@ class GameStatsHTTPServer(BaseHTTPServer.HTTPServer):
         # self.db = gs_database.GamespyDatabase()
         self.gamelist = self.parse_key_file()
 
-        BaseHTTPServer.HTTPServer.__init__(self, server_address,
+        http.server.HTTPServer.__init__(self, server_address,
                                            RequestHandlerClass)
 
     def parse_key_file(self, filename="gamestats.cfg"):
@@ -149,7 +151,7 @@ class GameStatsHTTPServer(BaseHTTPServer.HTTPServer):
         return gamelist
 
 
-class GameStatsHTTPServerHandler(BaseHTTPServer.BaseHTTPRequestHandler):
+class GameStatsHTTPServerHandler(http.server.BaseHTTPRequestHandler):
     def version_string(self):
         return "Nintendo Wii (http)"
 
@@ -173,7 +175,7 @@ class GameStatsHTTPServerHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         pass
 
     def str_to_dict(self, str):
-        ret = urlparse.parse_qs(urlparse.urlparse(str).query)
+        ret = urllib.parse.parse_qs(urllib.parse.urlparse(str).query)
 
         for k, v in ret.iteritems():
             ret[k] = v[0]

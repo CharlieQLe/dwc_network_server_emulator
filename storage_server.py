@@ -22,9 +22,10 @@
 import os
 import random
 import logging
-import BaseHTTPServer
+import urllib.parse
+import http
 import cgi
-import urlparse
+import urllib
 import sqlite3
 import xml.dom.minidom as minidom
 
@@ -55,9 +56,9 @@ class StorageServer(object):
         httpd.serve_forever()
 
 
-class StorageHTTPServer(BaseHTTPServer.HTTPServer):
+class StorageHTTPServer(http.server.HTTPServer):
     def __init__(self, server_address, RequestHandlerClass):
-        BaseHTTPServer.HTTPServer.__init__(self, server_address, RequestHandlerClass)
+        http.server.HTTPServer.__init__(self, server_address, RequestHandlerClass)
 
         self.gamespydb = gs_database.GamespyDatabase()
 
@@ -262,7 +263,7 @@ class FilterSyntaxException(Exception):
     pass
 
 
-class StorageHTTPServerHandler(BaseHTTPServer.BaseHTTPRequestHandler):
+class StorageHTTPServerHandler(http.server.BaseHTTPRequestHandler):
     def confirm_columns(self, columndata, table):
         '''Check if the columns the user wants to access actually exist, which should prevent SQL Injection'''
         columns = []
@@ -570,7 +571,7 @@ class StorageHTTPServerHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 
         elif self.path.startswith("/SakeFileServer/upload.aspx?"):
             retcode = 0
-            params = urlparse.parse_qs(self.path[self.path.find('?')+1:])
+            params = urllib.parse.parse_qs(self.path[self.path.find('?')+1:])
 
             gameid = int(params['gameid'][0])
             playerid = int(params['pid'][0])
@@ -636,7 +637,7 @@ class StorageHTTPServerHandler(BaseHTTPServer.BaseHTTPRequestHandler):
 
     def do_GET(self):
         if self.path.startswith("/SakeFileServer/download.aspx?"):
-            params = urlparse.parse_qs(self.path[self.path.find('?')+1:])
+            params = urllib.parse.parse_qs(self.path[self.path.find('?')+1:])
             retcode = 0
             ret = ''
 
