@@ -121,7 +121,7 @@ class RegPage(resource.Resource):
             title = 'Register a Console'
             response = self.render_maclist(request)
 
-        return (self.get_header(title) + response + self.get_footer()).encode()
+        return self.get_header(title) + response + self.get_footer()
 
     def render_POST(self, request):
         if request.path == "/updatemaclist":
